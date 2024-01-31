@@ -10,7 +10,7 @@ from loguru import logger
 from stix2 import MemoryStore
 
 # import mitreattack.attackToExcel.stixToDf as stixToDf
-from mitreattack.attackToExcel import stixToDf
+import stixToDf
 
 INVALID_CHARACTERS = ["\\", "/", "*", "[", "]", ":", "?"]
 SUB_CHARACTERS = ["\\", "/"]

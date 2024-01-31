@@ -6,6 +6,7 @@ def main():
 
     software = mitre_attack_data.get_software(remove_revoked_deprecated=True)
 
+    import pdb;pdb.set_trace()
     print(f"Retrieved {len(software)} ATT&CK software.")
 
 

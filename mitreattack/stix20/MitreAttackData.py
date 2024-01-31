@@ -724,7 +724,7 @@ class MitreAttackData:
     # Get Object Information
     ###################################
 
-    def get_attack_id(self, stix_id: str) -> str | None:
+    def get_attack_id(self, stix_id: str):
         """Get the object's ATT&CK ID.
 
         Parameters
