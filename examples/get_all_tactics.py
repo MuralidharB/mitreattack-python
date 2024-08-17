@@ -6,6 +6,8 @@ def main():
 
     tactics = mitre_attack_data.get_tactics(remove_revoked_deprecated=True)
 
+    for t in tactics:
+        print(t['name'], t['description'])
     print(f"Retrieved {len(tactics)} ATT&CK tactics.")
 
 

@@ -6,6 +6,8 @@ def main():
 
     groups = mitre_attack_data.get_groups(remove_revoked_deprecated=True)
 
+    for g in groups:
+        print(g['name'], g['description'])
     print(f"Retrieved {len(groups)} ATT&CK groups.")
 
 
