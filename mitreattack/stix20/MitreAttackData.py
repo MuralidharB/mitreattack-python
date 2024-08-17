@@ -354,7 +354,7 @@ class MitreAttackData:
         object_type : str, optional
             the STIX object type (must be 'attack-pattern', 'malware', 'tool', 'intrusion-set',
             'campaign', 'course-of-action', 'x-mitre-matrix', 'x-mitre-tactic',
-            'x-mitre-data-source', 'x-mitre-data-component', or 'x-mitre-asset')
+            'x-mitre-data-source', 'x-mitre-data-component', 'x-mitre-asset', or 'relationship')
         remove_revoked_deprecated : bool, optional
             remove revoked or deprecated objects from the query, by default False
 
@@ -363,19 +363,22 @@ class MitreAttackData:
         list
             a list of objects where the given content string appears in the description
         """
-        objects = self.src
-        if object_type:
-            if object_type not in self.stix_types:
-                # invalid object type
-                raise ValueError(f"object_type must be one of {self.stix_types}")
-            else:
-                # filter for objects of given type
-                objects = self.src.query([Filter("type", "=", object_type)])
+        if object_type and object_type not in self.stix_types and object_type != "relationship":
+            # invalid object type
+            raise ValueError(f"object_type must be one of {self.stix_types} or 'relationship'")
 
-        objects = list(filter(lambda t: content.lower() in t.description.lower(), objects))
+        filters = [Filter("type", "=", object_type)] if object_type else []
+        objects = self.src.query(filters)
+
+        matched_objects = []
+        for obj in objects:
+            if content.lower() in obj.get("description", "").lower():
+                matched_objects.append(obj)
+
         if remove_revoked_deprecated:
-            objects = self.remove_revoked_deprecated(objects)
-        return objects
+            matched_objects = self.remove_revoked_deprecated(matched_objects)
+
+        return matched_objects
 
     def get_techniques_by_platform(self, platform: str, remove_revoked_deprecated=False) -> list:
         """Retrieve techniques under a specific platform.
@@ -487,6 +490,28 @@ class MitreAttackData:
                 technique_tactics.append(tactic)
 
         return technique_tactics
+    
+    def get_procedure_examples_by_technique(self, stix_id) -> list:
+        """Retrieve the list of procedure examples by technique.
+
+        Parameters
+        ----------
+        stix_id : str
+            the stix id of the technique.
+
+        Returns
+        -------
+        list
+            a list of stix2.v20.Relationship objects describing the software, groups, and campaigns using the technique.
+        """
+        procedures = self.src.query(
+            [
+                Filter("type", "=", "relationship"),
+                Filter("relationship_type", "=", "uses"),
+                Filter("target_ref", "=", stix_id),
+            ]
+        )
+        return procedures
 
     def get_objects_created_after(self, timestamp: str, remove_revoked_deprecated=False) -> list:
         """Retrieve objects which have been created after a given time.

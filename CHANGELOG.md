@@ -1,8 +1,46 @@
+# v3.0.6 - 5/2/2024
+
+## Fixes
+
+- Update release information for ATT&CK 15.1... for real this time
+
+# v3.0.5 - 5/2/2024
+
+## Features
+
+- Update release information for ATT&CK 15.1
+- Added functionality to `MitreAttackData` to retrieve a list of Procedure Examples by technique. [#172](https://github.com/mitre-attack/mitreattack-python/pull/172)
+- Updated `navlayers` module to support Navigator version 5.0.0.
+
+## Fixes
+
+- Fixed a layer comparison issue causing false warnings to appear during layer operations. [#173](https://github.com/mitre-attack/mitreattack-python/issues/173).
+
+# v3.0.4 - 4/23/2024
+
+## Features
+
+- Update release information for ATT&CK 15.0
+
+# v3.0.3 - 3/13/2024
+
+## Features
+
+- Added support for searching relationships by content in `get_objects_by_content.py`. [#164](https://github.com/mitre-attack/mitreattack-python/pull/164)
+- Updated copyright year.
+- Add font size parameter to svg config. [#160](https://github.com/mitre-attack/mitreattack-python/issues/160)
+
+## Fixes
+
+- Fixed the placement of the grey subtechnique bars in `svg_objects.py`. [#166](https://github.com/mitre-attack/mitreattack-python/issues/166)
+- Fixed readthedocs build.
+- Fixed bug where self.src wasn't iterable in `get_objects_by_content()`.
+
 # v3.0.2 - 11/22/2023
 
 ## Fixes
 
-- Add mobile datasources to excel output. 
+- Add mobile datasources to excel output.
 
 # v3.0.1 - 11/14/2023
 
